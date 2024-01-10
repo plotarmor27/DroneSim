@@ -8,42 +8,42 @@ public class Drone {
     private String carriage_type;
 
     // Getter
-    public static int get_id(){
-
+    public int get_id(){
+        return id;
     }
-    public static String get_drone_type(){
-
+    public String get_drone_type(){
+        return drone_type;
     }
-    public static LocalDateTime get_created(){
-
+    public LocalDateTime get_created(){
+        return created;
     }
-    public static String get_serial_number(){
-
+    public String get_serial_number(){
+        return serial_number;
     }
-    public static int get_carriage_weight(){
-
+    public int get_carriage_weight(){
+        return carriage_weight;
     }
-    public static String get_carriage_type(){
-
+    public String get_carriage_type(){
+        return carriage_type;
     }
 
     // Setter
-    public static void set_id(){
-        id =
+    public void set_id(int id){
+        this.id = id;
     }
-    public static void set_drone_type(){
-        drone_type =
+    public void set_drone_type(String drone_type){
+        this.drone_type = drone_type;
     }
-    public static void set_created(){
-        created =
+    public void set_created(LocalDateTime created){
+        this.created = created;
     }
-    public static void set_serial_number(){
-        serial_number =
+    public void set_serial_number(String serial_number){
+        this.serial_number = serial_number;
     }
-    public static void set_carriage_weight(){
-        carriage_weight =
+    public void set_carriage_weight(int carriage_weight){
+        this.carriage_weight = carriage_weight;
     }
-    public static void set_carriage_type(){
-        carriage_type =
+    public void set_carriage_type(String carriage_type){
+        this.carriage_type = carriage_type;
     }
 }
