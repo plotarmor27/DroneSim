@@ -14,61 +14,51 @@ import org.json.JSONTokener;
 public class ApiAdapter {
 
     private static final String USER_AGENT = "Group 26";
-    private static String URL = "https://dronesim.facets-labs.com/api/";
-    private static String JSON_FORMAT = "/?format=json";
-    private static String drones = "drones";
-    private static int offset = 0;
-    private static String QUERY = "&limit=10&offset=";
+    private static final String URL = "https://dronesim.facets-labs.com/api/";
+    private static final String JSON_FORMAT = "/?format=json";
+    private static int offset;
+    private static final String QUERY = "&limit=10&offset=";
     private static final String TOKEN = "Token 1bbbbd05efe3c733efcf8f443582a09cac4ca02c";
-
     private static JSONObject jsonResponse;
 
 
 
-    public static JSONArray apiReader(String category) {
-
+    public static JSONObject api_fetch(String category) {
         URL url;
         try {
-            url = new URL(URL + category + JSON_FORMAT + QUERY + String.valueOf(offset));
+            url = new URL(URL + category + JSON_FORMAT + QUERY + offset);
             HttpURLConnection connection = (HttpURLConnection) url.openConnection();
             connection.setRequestProperty("Authorization", TOKEN);
             connection.setRequestMethod("GET");
             connection.setRequestProperty("User-Agent", USER_AGENT);
 
-            //int responseCode = connection.getResponseCode();
-            //System.out.println("Response Code " + responseCode);
-
             BufferedReader in = new BufferedReader(new InputStreamReader(connection.getInputStream()));
             JSONTokener tokener = new JSONTokener(in);
             jsonResponse = new JSONObject(tokener);
-            System.out.println(jsonResponse.toString());
             in.close();
+
         } catch (MalformedURLException e) {
             System.err.println("Malformed URL: " + e.getLocalizedMessage());
             e.printStackTrace();
-        } catch (IOException e) {
+        }
+        catch (IOException e) {
             System.out.println("General IO Exception: " + e.getLocalizedMessage());
             e.printStackTrace();
         }
-        return jsonResponse.getJSONArray("results");
+        return jsonResponse;
     }
-
-
-
-    public static String formatJson(String input) {
-        final int indentSpaces = 4;
-        Object json = new JSONTokener(input).nextValue();
-
-        if (json instanceof JSONObject) {
-            JSONObject o = (JSONObject) json;
-
-            return o.toString(indentSpaces);
-        } else if (json instanceof JSONArray) {
-            return ((JSONArray) json).toString(indentSpaces);
-        } else {
-            throw new IllegalArgumentException("Input string is not a valid JSON");
+    public static JSONArray api_results(String category){
+        JSONArray results = new JSONArray();
+        JSONObject fetch = api_fetch(category);
+        int j=0;
+        while(fetch.getInt("count") > j){ // while next block is not null
+            for (int i=0; i < fetch.getJSONArray("results").length(); i++) {
+                results.put(fetch.getJSONArray("results").getJSONObject(i));
+                j++;
+            }
+            offset = offset + 10;
+            fetch = api_fetch(category);
         }
+        return results;
     }
-
-
 }
