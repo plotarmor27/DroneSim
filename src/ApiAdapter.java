@@ -25,7 +25,7 @@ public class ApiAdapter {
 
 
 
-    public static JSONObject apiReader(String category) {
+    public static JSONArray apiReader(String category) {
 
         URL url;
         try {
@@ -35,8 +35,8 @@ public class ApiAdapter {
             connection.setRequestMethod("GET");
             connection.setRequestProperty("User-Agent", USER_AGENT);
 
-            int responseCode = connection.getResponseCode();
-            System.out.println("Response Code " + responseCode);
+            //int responseCode = connection.getResponseCode();
+            //System.out.println("Response Code " + responseCode);
 
             BufferedReader in = new BufferedReader(new InputStreamReader(connection.getInputStream()));
             JSONTokener tokener = new JSONTokener(in);
@@ -50,7 +50,7 @@ public class ApiAdapter {
             System.out.println("General IO Exception: " + e.getLocalizedMessage());
             e.printStackTrace();
         }
-        return jsonResponse;
+        return jsonResponse.getJSONArray("results");
     }
 
 
