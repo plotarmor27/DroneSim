@@ -34,8 +34,8 @@ public class Drone {
     public void set_drone_type(String drone_type){
         this.drone_type = drone_type;
     }
-    public void set_created(LocalDateTime created){
-        this.created = created;
+    public void set_created(String created){
+        this.created = LocalDateTime.parse(created);
     }
     public void set_serial_number(String serial_number){
         this.serial_number = serial_number;
